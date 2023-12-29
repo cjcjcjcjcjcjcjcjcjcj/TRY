@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .candidates-container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .column {
+            width: 30%;
+            margin: 0 10px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .column p {
+            padding: 5px 0;
+            margin: 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .add-name-form {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .add-name-form input {
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .add-name-form button {
+            background-color: rgb(45, 127, 221);
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .print-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .navigation {
+            margin-top: 20px;
+        }
+
+        .previous,
+        .next {
+            background-color: rgb(45, 127, 221);
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .previous {
+            display: inline-block;
+        }
+
+        .next {
+            display: inline-block;
+        }
+
+        @media print {
+            .previous {
+                display: none;
+            }
+
+            .next {
+                display: none;
+            }
+
+            .add-name-form input {
+                display: none;
+            }
+
+            .add-name-form button {
+                display: none;
+            }
+            .column {
+                box-shadow: none; 
+            }
+
+            .column p {
+                border-bottom: none;
+            }
+            .print-button{
+              display: none;
+            }
+        }
+    </style>
+
+    <title>Candidates for Graduation</title>
+</head>
+
+<body>
+
+    <h1 contenteditable="true">CANDIDATES FOR GRADUATION</h1>
+    <h2 contenteditable="true">SY 2023-2024</h2>
+    <h3 contenteditable="true">BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</h3>
+
+    <div class="candidates-container">
+        <div class="column" start="1">
+            <div class="add-name-form">
+                <input type="text" placeholder="Enter The Number & Name" id="nameInput1">
+                <button onclick="addName(1)">Add Name</button>
+            </div>
+        </div>
+
+        <div class="column" start="31">
+            <div class="add-name-form">
+                <input type="text" placeholder="Enter The Number & Name" id="nameInput2">
+                <button onclick="addName(2)">Add Name</button>
+            </div>
+        </div>
+
+        <div class="column" start="61">
+            <div class="add-name-form">
+                <input type="text" placeholder="Enter The Number & Name" id="nameInput3">
+                <button onclick="addName(3)">Add Name</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="printPage()">Print</button>
+
+    <div class="navigation">
+        <a href="page3.html" class="previous">&laquo; Previous</a>
+        <a href="#" class="next">Next &raquo;</a>
+    </div>
+
+    <script>
+        function addName(columnNumber) {
+            const nameInput = document.getElementById(`nameInput${columnNumber}`);
+            const column = document.querySelector(`.column[start="${(columnNumber - 1) * 30 + 1}"]`);
+
+            if (nameInput.value.trim() !== '') {
+                const newParagraph = document.createElement('p');
+                newParagraph.textContent = nameInput.value;
+                column.appendChild(newParagraph);
+                nameInput.value = '';
+            }
+        }
+
+        function printPage() {
+            window.print();
+        }
+    </script>
+
+</body>
+
+</html>

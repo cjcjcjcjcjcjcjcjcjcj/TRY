@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 20px;
+        }
+
+        .photo {
+            position: relative;
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .photo img {
+            width: 100%;
+            height: auto;
+        }
+
+        .photo:hover {
+            transform: scale(1.05);
+        }
+
+        .photo p {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 5px;
+            text-align: center;
+            color: rgb(45, 127, 221);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .photo .delete-photo-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #upload-input {
+            display: none;
+        }
+
+        label {
+            display: block;
+            background-color: rgb(45, 127, 221);
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .navigation a {
+            padding: 10px;
+            text-decoration: none;
+            color: white;
+            border-radius: 5px;
+            background-color: rgb(45, 127, 221);
+        }
+
+        #add-photo-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .print-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media print {
+            .navigation, #add-photo-container, .photo .delete-photo-btn, .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1 contenteditable="true" style="text-align: center;">CANDIDATES FOR GRADUATION</h1>
+        <h2 contenteditable="true" style="text-align: center;">SY 2023-2024</h2>
+        <h3 contenteditable="true" style="text-align: center;">BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</h3>
+
+        <div class="gallery" id="album-content">
+            <!-- Placeholder photos -->
+        </div>
+
+        <div class="navigation">
+            <a href="COPYPAGE2.html" class="previous">&laquo; Previous</a>
+            <a href="page6.html" class="next">Next &raquo;</a>
+        </div>
+    </div>
+
+    <div id="add-photo-container">
+        <!-- Add Photo Button (Bottom of the Page) -->
+        <input type="file" id="upload-input-bottom" accept="image/*" onchange="addPhoto(this)">
+        <label for="upload-input-bottom">Add Photo</label>
+    </div>
+
+    <button class="print-button" onclick="printPage()">Print</button>
+
+    <script>
+        function addPhoto(input) {
+            const albumContent = document.getElementById('album-content');
+
+            // Check if a file is selected
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Create new photo element
+                    const newPhoto = document.createElement('div');
+                    newPhoto.className = 'photo';
+
+                    // Create image element
+                    const newImage = document.createElement('img');
+                    newImage.src = e.target.result;
+                    newImage.alt = 'New Photo';
+
+                    // Create delete button for the new image
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'delete-photo-btn';
+                    deleteButton.innerHTML = 'x';
+                    deleteButton.onclick = function () {
+                        albumContent.removeChild(newPhoto);
+                    };
+
+                    // Create paragraph element for text
+                    const newText = document.createElement('p');
+                    newText.contentEditable = true;
+                    newText.style.textAlign = 'center';
+                    newText.innerHTML = 'New Student';
+
+                    // Append elements to the new photo
+                    newPhoto.appendChild(newImage);
+                    newPhoto.appendChild(newText);
+                    newPhoto.appendChild(deleteButton);
+
+                    // Append new photo to the album content
+                    albumContent.appendChild(newPhoto);
+                };
+
+                // Read the uploaded file as a data URL
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function printPage() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
